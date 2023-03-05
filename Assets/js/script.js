@@ -31,7 +31,12 @@ var workdayEnd=18;
 /************************************** 
 functions
 **************************************/
+function main()
+{
+  setHeadingDate();
+  createDayCalendar();
 
+}
 /************************************** 
 Get the current time and compare the 
 current hour to the parameter.
@@ -77,6 +82,15 @@ function ampm(hour)
   }
 }
 
+function setHeadingDate()
+{
+  var d=new Date();
+//var advancedFormat = require('dayjs/plugin/advancedFormat');
+//  dayjs.extend(advancedFormat);
+ // var advancedFormat = require('dayjs/plugin/advancedFormat');
+dayjs.extend(window.dayjs_plugin_advancedFormat);
+  document.querySelector("#currentDay").textContent = dayjs(d).format('dddd, MMMM, D');
+}
 /************************************** 
 create hour bands for the calendar
 **************************************/
@@ -102,4 +116,4 @@ function createDayCalendar()
 /************************************** 
 create calendar on load
 **************************************/
-$(document).ready(createDayCalendar);
+$(document).ready(main);
