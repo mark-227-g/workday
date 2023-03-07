@@ -41,6 +41,7 @@ THEN the saved events persist
 * CSS3
 * Javascript
 * jQuery
+* day.js
 * Moment.js
 * Bootstrap
 * font awesome
@@ -50,10 +51,10 @@ THEN the saved events persist
 
 * [W3schools](https://www.w3schools.com/html/html5_semantic_elements.asp)
 * [jQuery](https://jqueryui.com)
-* [Day.js](https://day.js.org/)
+* [day.js](https://day.js.org/)
 * [Moment.js](https://momentjs.com/docs/)
 * [Bootstrap](https://getbootstrap.com/)
-* [font awesome] (https://fontawesome.com/)
+* [fontawesome](https://fontawesome.com/)
 
 
 
