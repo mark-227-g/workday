@@ -31,7 +31,7 @@ function main()
 {
   setHeadingDate();
   createDayCalendar();
-  loadmyWorkday();
+  //loadmyWorkday();
 
 }
 
@@ -149,8 +149,11 @@ var saveEvent = function(event)
 
   var hour=event.currentTarget.value;
   var text=document.getElementById("txt-"+hour).value;
-
-  i = myWorkday.findIndex(workdayEvent => workdayEvent.hour==hour);
+  var i=-1;
+  if(myWorkday.length > 0)
+  {
+    i = myWorkday.findIndex(workdayEvent => workdayEvent.hour==hour);
+  };
 
   if(i>=0)
   {
