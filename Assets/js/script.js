@@ -6,6 +6,10 @@ var workdayEnd=17;
 
 var saveBtnEl = document.querySelector('#saveBtn');
 
+/************************************** 
+This defines the events on the planner
+The events are kept in an array of objects
+**************************************/
 class workdayEvent {
   constructor(hour, text) {
     this.hour = hour;
@@ -18,6 +22,11 @@ myWorkday=[];
 /************************************** 
 functions
 **************************************/
+
+/************************************** 
+The main function is called after the 
+page has been loaded
+**************************************/
 function main()
 {
   setHeadingDate();
@@ -25,11 +34,12 @@ function main()
   loadmyWorkday();
 
 }
+
 /************************************** 
 Get the current time and compare the 
 current hour to the parameter.
 return the corresponding class name
-hour format: military time
+the hour format is in military time
 **************************************/
 function getHourClass(hour)
 {
@@ -75,7 +85,9 @@ function ampm(hour)
 }
 
 /************************************** 
-
+set the date in the workday heading
+used the moment library instead of dayjs
+the "Do" format does not work in dayjs
 **************************************/
 function setHeadingDate()
 {
@@ -85,6 +97,9 @@ function setHeadingDate()
 
 /************************************** 
 create hour bands for the calendar
+The bands are created dynamically from 
+the workday array/class
+add an eventlistener to the button
 **************************************/
 function createDayCalendar()
 {
@@ -95,13 +110,13 @@ function createDayCalendar()
   for (var dayHour = workdayStart;dayHour<=workdayEnd;dayHour++)
   {
     timeBlockEl = document.createElement("div");
-    timeBlockEl.innerHTML='<div id="hour-' + dayHour + '" class="row time-block ' + getHourClass(dayHour)+ 
-    '"><div class="col-2 col-md-1 hour text-center py-3">' + ampm(dayHour) + '</div>' +
+    timeBlockEl.innerHTML='<div id="hour-' + dayHour + '" class="row time-block ' + 
+    getHourClass(dayHour)+ '"><div class="col-2 col-md-1 hour text-center py-3">' + 
+    ampm(dayHour) + '</div>' +
     '<textarea id="txt-'+dayHour+'" class="col-8 col-md-10 description" rows="3"> </textarea>' +
-    '<button id="btn-'+dayHour+'" class="btn saveBtn col-2 col-md-1" aria-label="save" value="'+dayHour+'">' +
-     '<i class="fas fa-save" aria-hidden="true"></i>' +
-     '</button>' +
-     '</div>';
+    '<button id="btn-'+dayHour+'" class="btn saveBtn col-2 col-md-1" aria-label="save" value="'
+    +dayHour+'">' + '<i class="fas fa-save" aria-hidden="true"></i>' +
+     '</button>' +'</div>';
      calendarDayEl.appendChild(timeBlockEl);
      btnEl=document.getElementById("btn-"+dayHour);
      btnEl.addEventListener("click",saveEvent);
@@ -132,23 +147,22 @@ Triggered by button press
 var saveEvent = function(event)
 {
 
-var hour=event.currentTarget.value;
-var text=document.getElementById("txt-"+hour).value;
+  var hour=event.currentTarget.value;
+  var text=document.getElementById("txt-"+hour).value;
 
+  i = myWorkday.findIndex(workdayEvent => workdayEvent.hour==hour);
 
-i = myWorkday.findIndex(workdayEvent => workdayEvent.hour==hour);
+  if(i>=0)
+  {
+  myWorkday[i].text=text;
+  }
+  else
+  {
+    var newWorkdayEvent= new workdayEvent(hour,text);
+    myWorkday.push(newWorkdayEvent);
+  }
 
-if(i>=0)
-{
- myWorkday[i].text=text;
-}
-else
-{
-  var newWorkdayEvent= new workdayEvent(hour,text);
-  myWorkday.push(newWorkdayEvent);
-}
-
-localStorage.setItem("myWorkday", JSON.stringify(myWorkday));
+  localStorage.setItem("myWorkday", JSON.stringify(myWorkday));
 };
 
 /************************************** 
