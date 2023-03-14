@@ -17,7 +17,7 @@ class workdayEvent {
   }
 };
 
-myWorkday=[];
+var myWorkday=[];
 
 /************************************** 
 functions
@@ -130,10 +130,13 @@ fill the workday data
 function loadmyWorkday()
 {
   myWorkday=JSON.parse(localStorage.getItem("myWorkday"));
-  $.each( myWorkday, function( key, value ) 
-  {
-    document.getElementById("txt-"+value.hour).value=value.text;
-  });
+    if(myWorkday != null)
+    {
+      $.each( myWorkday, function( key, value ) 
+      {
+        document.getElementById("txt-"+value.hour).value=value.text;
+      });
+    };
 }
 
 /************************************** 
@@ -146,24 +149,27 @@ Triggered by button press
 **************************************/
 var saveEvent = function(event)
 {
-
   var hour=event.currentTarget.value;
   var text=document.getElementById("txt-"+hour).value;
-  var i=-1;
-  if(myWorkday.length > 0)
+  var i = -1;
+  if(myWorkday)
   {
     i = myWorkday.findIndex(workdayEvent => workdayEvent.hour==hour);
-  };
-
-  if(i>=0)
-  {
-  myWorkday[i].text=text;
+    if(i>=0)
+    {
+      myWorkday[i].text = text;
+    }
+    else
+    {
+      var newWorkdayEvent= new workdayEvent(hour,text);
+      myWorkday.push(newWorkdayEvent);
+    }
   }
   else
   {
     var newWorkdayEvent= new workdayEvent(hour,text);
-    myWorkday.push(newWorkdayEvent);
-  }
+    myWorkday=[newWorkdayEvent];
+  };
 
   localStorage.setItem("myWorkday", JSON.stringify(myWorkday));
 };
